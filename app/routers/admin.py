@@ -5,6 +5,7 @@ from app.database import get_db
 from app.services.order_service import get_all_orders
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
+from app.services.dashboard_service import get_admin_dashboard
 
 from app.database import get_db
 from app.schemas.admin import (
@@ -82,3 +83,9 @@ def status(
         order,
         data.status,
     )
+@router.get("/dashboard")
+def dashboard(
+    db: Session = Depends(get_db),
+):
+
+    return get_admin_dashboard(db)

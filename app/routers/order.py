@@ -52,3 +52,23 @@ def my_orders(
         db,
         current_user.id,
     )
+@router.get("/{order_id}")
+def order_details(
+    order_id: int,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+
+    order = get_order_details(
+        db,
+        order_id,
+        current_user.id,
+    )
+
+    if not order:
+        raise HTTPException(
+            status_code=404,
+            detail="Order not found",
+        )
+
+    return order

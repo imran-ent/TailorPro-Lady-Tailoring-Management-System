@@ -4,6 +4,7 @@ from app.models.dress_type import DressType
 from app.models.measurement import Measurement
 from app.models.order import Order
 from app.schemas.order import OrderCreate
+from app.constants.order_status import OrderStatus
 
 
 def create_order(
@@ -69,7 +70,7 @@ def get_order_by_id(db: Session, order_id: int):
 
 def accept_order(db: Session, order: Order, data):
 
-    order.status = "ACCEPTED"
+    order.status = OrderStatus.ACCEPTED.value
     order.appointment_date = data.appointment_date
     order.expected_delivery_date = data.expected_delivery_date
 
@@ -81,7 +82,7 @@ def accept_order(db: Session, order: Order, data):
 
 def reject_order(db: Session, order: Order, data):
 
-    order.status = "REJECTED"
+    order.status = OrderStatus.REJECTED.value
     order.rejection_reason = data.rejection_reason
 
     db.commit()
@@ -98,3 +99,17 @@ def update_order_status(db: Session, order: Order, status: str):
     db.refresh(order)
 
     return order
+def get_order_details(
+    db: Session,
+    order_id: int,
+    customer_id: int,
+):
+
+    return (
+        db.query(Order)
+        .filter(
+            Order.id == order_id,
+            Order.customer_id == customer_id,
+        )
+        .first()
+    )

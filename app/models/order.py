@@ -2,6 +2,7 @@ from datetime import datetime
 
 from sqlalchemy import DateTime, ForeignKey, Integer, String, Text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
+from app.constants.order_status import OrderStatus
 
 from app.database import Base
 
@@ -42,7 +43,7 @@ class Order(Base):
 
     status: Mapped[str] = mapped_column(
         String(50),
-        default="PENDING"
+        default=OrderStatus.PENDING.value
     )
     appointment_date: Mapped[datetime | None] = mapped_column(
         DateTime,

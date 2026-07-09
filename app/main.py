@@ -7,6 +7,9 @@ from app.routers.dress import router as dress_router
 from app.routers.measurement import router as measurement_router
 from app.routers.order import router as order_router
 from app.routers.admin import router as admin_router
+from app.routers.dashboard import router as dashboard_router
+from app.routers.upload import router as upload_router
+from fastapi.staticfiles import StaticFiles
 
 app = FastAPI()
 
@@ -17,6 +20,13 @@ app.include_router(dress_router)
 app.include_router(measurement_router)
 app.include_router(order_router)
 app.include_router(admin_router)
+app.include_router(dashboard_router)
+app.include_router(upload_router)
+app.mount(
+    "/uploads",
+    StaticFiles(directory="uploads"),
+    name="uploads",
+)
 
 
 @app.get("/")

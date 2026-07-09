@@ -12,5 +12,8 @@ class RejectOrder(BaseModel):
     rejection_reason: str
 
 
+from app.constants.order_status import OrderStatus
+
+
 class UpdateStatus(BaseModel):
-    status: str
+    status: OrderStatus
