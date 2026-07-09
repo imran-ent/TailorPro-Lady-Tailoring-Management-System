@@ -50,3 +50,18 @@ def authenticate_user(
         return None
 
     return user
+def get_user_by_phone(db: Session, phone: str):
+    return (
+        db.query(User)
+        .filter(User.phone == phone)
+        .first()
+    )
+def update_profile(db, user, data):
+
+    user.full_name = data.full_name
+    user.phone = data.phone
+
+    db.commit()
+    db.refresh(user)
+
+    return user

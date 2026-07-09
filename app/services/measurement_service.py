@@ -84,3 +84,35 @@ def delete_measurement(
     db.delete(measurement)
 
     db.commit()
+def get_measurement_by_id(db, measurement_id):
+
+    return (
+        db.query(Measurement)
+        .filter(Measurement.id == measurement_id)
+        .first()
+    )
+
+
+def update_measurement(db, measurement, data):
+
+    measurement.profile_name = data.profile_name
+    measurement.height = data.height
+    measurement.chest = data.chest
+    measurement.waist = data.waist
+    measurement.hip = data.hip
+    measurement.shoulder = data.shoulder
+    measurement.sleeve_length = data.sleeve_length
+    measurement.neck = data.neck
+    measurement.notes = data.notes
+
+    db.commit()
+    db.refresh(measurement)
+
+    return measurement
+
+
+def delete_measurement(db, measurement):
+
+    db.delete(measurement)
+
+    db.commit()

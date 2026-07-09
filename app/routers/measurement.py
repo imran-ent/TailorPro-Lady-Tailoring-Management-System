@@ -116,3 +116,49 @@ def remove_measurement(
     return {
         "message": "Measurement deleted successfully"
     }
+@router.put("/{measurement_id}")
+def edit_measurement(
+    measurement_id: int,
+    data: MeasurementCreate,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+
+    measurement = get_measurement_by_id(
+        db,
+        measurement_id,
+    )
+
+    if not measurement:
+        raise HTTPException(404, "Measurement not found")
+
+    return update_measurement(
+        db,
+        measurement,
+        data,
+    )
+
+
+@router.delete("/{measurement_id}")
+def remove_measurement(
+    measurement_id: int,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+
+    measurement = get_measurement_by_id(
+        db,
+        measurement_id,
+    )
+
+    if not measurement:
+        raise HTTPException(404, "Measurement not found")
+
+    delete_measurement(
+        db,
+        measurement,
+    )
+
+    return {
+        "message": "Measurement Deleted"
+    }
